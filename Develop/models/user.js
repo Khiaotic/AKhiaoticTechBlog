@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
-class USER extends Model {
+class User extends Model {
     checkPassword(loginPW) {
         return bcrypt.compareSync(loginPW, this.password);
     }
@@ -10,7 +10,7 @@ class USER extends Model {
 
 
 
-USER.init (
+User.init (
     {
         id: {
             type: DataTypes.INTEGER,
