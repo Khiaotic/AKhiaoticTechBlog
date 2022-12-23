@@ -56,3 +56,5 @@ USER.init (
     modelName: 'user',
     }
 );
+
+module.experts = User;
