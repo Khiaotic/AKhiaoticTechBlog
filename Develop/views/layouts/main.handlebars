@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<body lang="en">
+    <div></div>
+    <head>
+      <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Khiaotic Tech Blog</title>
+  <link rel="stylesheet" href="/css/">
+  <link rel="stylesheet" href="/css/style.css">  
+    </head>
+<header>
+    <header>
+<nav>
+    {{#if logged_in}}
+    <a href="/profile">profile</a>
+    <button class="no-button" id="logout">logout</button>
+    {{else}}
+    <a href="/login">login</a>
+    {{/if}}
+</nav>
+</header>
+<main class="">
+    {{{body}}}
+</main>
+<footer>
+
+</footer>
+</div>
+
+
+
+<!---render script for logged in users only-->
+{{#if logged_in}}
+<script scr="/js/logout.js"></script>
+{{/if}}
+</body>
+
+
+
+</html>
