@@ -22,5 +22,32 @@ router.post('/signIn', async (req, res) => {
         .json({ message: 'Incorrect EMAIL or PASSWORD,  pls try again'});
     return;   
     }
+    const validPassword = await userData.checkPassword(req.body.password);
+if (!validPassword) {
+    res
+    .status(400)
+.json({ message: 'Incorrect EMAIL or PASSWORD,  pls try again'});
+return
+}    
+req.session.save(() => {
+    req.session.user_id = userData.id;
+    req.session.signedIn = true;
+
+    res.json({user: userData, message: 'Welcome, come join the tech party!'});
+});
+} catch (err) {
+    res.status(400).json(err);
+}
+});
+ 
+router.post('/signOut', (req, res) => {
+    if(req.session.signedIn) {
+        req.session.destroy(() => {
+            res.status(204).end();
+        });
+    } else {
+        res.status(404).end();
     }
-})
+});
+
+module.exports = router;
