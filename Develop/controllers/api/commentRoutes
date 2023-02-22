@@ -1,37 +1,17 @@
 const router = require('express').Router();
-const {blogPost} = require('../../models');
+const {Comment} = require('../../models');
 
 
 router.post('/', async (req, res) => {
     try {
-        const newBlogPost = await blogPost.create({
+        const newComment = await Comment.create({
             ...req.body,
-            user_id: req.session.user_id,
+            blogPost: req.session.blogPost.id,
         });
-        res.status(200).json(newBlogPost);
+        res.status(200).json(newComment);
 
     } catch (err) {
         res.status(400).json(err);
-    }
-});
-
-router.delete('/:id', async (req, res) => {
-    try {
-        const blogPostData = await blogPost.destroy({
-            where: {
-                id: req.params.id,
-                user_id: req.session.user_id,
-            },
-        });
-
-        if(!blogPostData) {
-            res.status(404).json({ message: 'no blog post with this id, sorry bud'});
-        return;
-        }
-
-        res.status(200).json(blogPostData);
-    } catch (err) {
-        res.status(500).json(err);
     }
 });
 
