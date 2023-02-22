@@ -6,7 +6,7 @@ router.post('/', async (req, res) => {
     try {
         const newComment = await Comment.create({
             ...req.body,
-            blogPost: req.session.blogPost.id,
+            comment_id: req.session.blogPost.id,
         });
         res.status(200).json(newComment);
 
@@ -14,5 +14,26 @@ router.post('/', async (req, res) => {
         res.status(400).json(err);
     }
 });
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const commentData = await Comment.destroy({
+            where: {
+                id: req.params.id,
+                comment_id: req.session.blogPost_id,
+            },
+        });
+
+        if(!commentData) {
+            res.status(404).json({ message: 'no blog post with this id, sorry bud'});
+        return;
+        }
+
+        res.status(200).json(commentData);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 
 module.exports = router;
