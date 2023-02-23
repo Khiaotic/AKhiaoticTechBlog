@@ -35,4 +35,10 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+
+/////////////get routes///////////////
+///get all users posts
+//get a single user post
+
+
 module.exports = router;

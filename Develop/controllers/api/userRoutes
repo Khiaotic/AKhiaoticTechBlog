@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {User} = require('../../models');
+const {User, BlogPost} = require('../../models');
 
 router.post ('/', async (req, res) => {
 try {
@@ -49,5 +49,39 @@ router.post('/signOut', (req, res) => {
         res.status(404).end();
     }
 });
+
+
+
+
+/////////////get routes///////////////
+///get all users 
+router.get('/', async (req, res) => {
+    try {
+        const userData = await User.findAll({
+            include: [{ model: BlogPost}]
+        })
+        res.status(200).json(userData)
+    } catch(err){
+        res.status(500).json(err)
+    }
+});
+
+//get a single user 
+router.get('/:id', async (req, res) => {
+    try {
+        const userData = await User.findByPk(req.params.id,{
+            include: [{ model: BlogPost}]
+        });
+        if(!userData){
+            res.status(404).json({message: "no user with that associated id"});
+        
+        return;
+    }
+        res.status(200).json(userData)
+    } catch(err){
+        res.status(500).json(err)
+    }
+});
+
 
 module.exports = router;
