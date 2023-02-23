@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const {blogPost} = require('../../models');
+const {blogPost, BlogPost} = require('../../models');
+const {User} = require('../../models');
 
 
 router.post('/', async (req, res) => {
@@ -36,9 +37,36 @@ router.delete('/:id', async (req, res) => {
 });
 
 
+
 /////////////get routes///////////////
-///get all users posts
-//get a single user post
+///get all blog post 
+router.get('/', async (req, res) => {
+    try {
+        const blogData = await BlogPost.findAll({
+            include: [{ model: BlogPost}]
+        })
+        res.status(200).json(blogData)
+    } catch(err){
+        res.status(500).json(err)
+    }
+});
+
+//get a single blog post 
+router.get('/:id', async (req, res) => {
+    try {
+        const blogData = await BlogPost.findByPk(req.params.id,{
+            include: [{ model: User}]
+        });
+        if(!blogData){
+            res.status(404).json({message: "no post with that associated id"});
+        
+        return;
+    }
+        res.status(200).json(blogData)
+    } catch(err){
+        res.status(500).json(err)
+    }
+});
 
 
 module.exports = router;
